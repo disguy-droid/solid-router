@@ -9,7 +9,7 @@ const Home: Component = () => {
         <For each={datas()}>
           {(data) => (
             <A href={`/photos/${data.id}`}>
-              <li class="aspect-square overflow-hidden rounded-xl ">
+              <li class="aspect-square overflow-hidden rounded-xl">
                 <img
                   class="w-full h-full"
                   src={data.url}

@@ -2,6 +2,7 @@ import { createSignal, lazy } from "solid-js";
 import type { Component } from "solid-js";
 import { Routes, Route } from "@solidjs/router";
 import Nav from "./components/Nav";
+import NotFound from "./pages/[...404]";
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Photos = lazy(() => import("./pages/photos/[id]"));
@@ -67,6 +68,10 @@ const App: Component = () => {
         <Route
           path="/photos/:id"
           component={Photos}
+        />
+        <Route
+          path={"*"}
+          component={NotFound}
         />
       </Routes>
     </>
