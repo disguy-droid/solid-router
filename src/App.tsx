@@ -1,11 +1,9 @@
 import { createSignal, lazy } from "solid-js";
 import type { Component } from "solid-js";
-import { Routes, Route } from "@solidjs/router";
+import { useRoutes } from "@solidjs/router";
 import Nav from "./components/Nav";
-import NotFound from "./pages/[...404]";
-const Home = lazy(() => import("./pages/Home"));
-const About = lazy(() => import("./pages/About"));
-const Photos = lazy(() => import("./pages/photos/[id]"));
+import { Transition } from "solid-transition-group";
+import { TransitionGroup } from "solid-transition-group/types/TransitionGroup";
 
 export const [datas, setDatas] = createSignal([
   {
@@ -52,29 +50,37 @@ export const [datas, setDatas] = createSignal([
   },
 ]);
 
+const routes = [
+  {
+    path: "/",
+    component: lazy(() => import("./pages/Home")),
+  },
+  {
+    path: "/about",
+    component: lazy(() => import("./pages/About")),
+  },
+  {
+    path: "/photos/:id",
+    component: lazy(() => import("./pages/photos/[id]")),
+  },
+  {
+    path: "*",
+    component: lazy(() => import("./pages/[...404]")),
+  },
+];
+
 const App: Component = () => {
+  const Routes = useRoutes(routes);
   return (
-    <>
+    <div class="font-ibmPlexSans ">
       <Nav />
-      <Routes>
-        <Route
-          path="/"
-          component={Home}
-        />
-        <Route
-          path="/about"
-          component={About}
-        />
-        <Route
-          path="/photos/:id"
-          component={Photos}
-        />
-        <Route
-          path={"*"}
-          component={NotFound}
-        />
-      </Routes>
-    </>
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
+        <Routes />
+      </Transition>
+    </div>
   );
 };
 
